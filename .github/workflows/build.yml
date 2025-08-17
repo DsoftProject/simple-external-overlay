@@ -1,11 +1,11 @@
 name: Build Project
 
 on:
-  workflow_dispatch:   # позволит запускать вручную с кнопки "Run workflow"
+  workflow_dispatch:   # запуск вручную
 
 jobs:
   build:
-    runs-on: windows-latest   # GitHub даст нам Windows с Visual Studio
+    runs-on: windows-latest   # GitHub даст Windows с Visual Studio
 
     steps:
       - name: Checkout code
@@ -14,12 +14,11 @@ jobs:
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1.3.1
 
-      - name: Build with MSBuild
+      - name: Build with MSBuild (x64)
         run: msbuild simple-external-overlay.sln /p:Configuration=Release /p:Platform=x64
 
-      - name: Upload Build Artifact
-        uses: actions/upload-artifact@v3
+      - name: Upload Build Artifact (x64)
+        uses: actions/upload-artifact@v4
         with:
-          name: simple-external-overlay
-          path: |
-            x64/Release/*.exe
+          name: simple-external-overlay-x64
+          path: x64/Release/*.exe
