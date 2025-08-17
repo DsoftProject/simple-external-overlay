@@ -1,0 +1,25 @@
+name: Build Project
+
+on:
+  workflow_dispatch:   # позволит запускать вручную с кнопки "Run workflow"
+
+jobs:
+  build:
+    runs-on: windows-latest   # GitHub даст нам Windows с Visual Studio
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.3.1
+
+      - name: Build with MSBuild
+        run: msbuild simple-external-overlay.sln /p:Configuration=Release /p:Platform=x64
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: simple-external-overlay
+          path: |
+            x64/Release/*.exe
